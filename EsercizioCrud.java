@@ -10,23 +10,11 @@ import java.util.Scanner; // import della classe Scanner
 
     public static void main(String[] args) {
 
+        try(Scanner scannerStr = new Scanner(System.in); Scanner scannerInt = new Scanner(System.in) ){
+            menù(scannerStr, scannerInt);
+        }
         
-
-        //Input data
-        insertConnectionData();
         
-        // CREATE
-        insertUtente("Mario Rossi", "mario@example.com");
-
-        // READ
-        readUtenti();
-
-        // UPDATE
-        updateUtente(1, "Mario Bianchi");
-
-        // DELETE
-        deleteUtente(1);
-
 
     }
 
@@ -121,8 +109,8 @@ import java.util.Scanner; // import della classe Scanner
             scelta = myScannerInt.nextInt();
 
             switch (scelta) {
-                case 1:
-                    connessione(myScannerStr);
+                case 1:                
+                    insertConnectionData();
                     int sceltaMenù;
                     do {
                         System.out.println("===MENù===");
@@ -136,29 +124,28 @@ import java.util.Scanner; // import della classe Scanner
 
                         switch (sceltaMenù) {
                             case 1:
+
                                 System.out.println("Inserisci Nome utente:");
                                 String nome = myScannerStr.nextLine();
                                 System.out.println("Inserisci Email utente:");
                                 String email = myScannerStr.nextLine();
-                                inserimentoUtente(nome, email);
+                                insertUtente(nome, email);
                                 break;
                             case 2:
                                 System.out.println("Inserisci ID utente da modificare:");
                                 int id = myScannerInt.nextInt();
                                 System.out.println("Inserisci Nome utente:");
                                 String nuovoNome = myScannerStr.nextLine();
-                                System.out.println("Inserisci Email utente:");
-                                String nuovaEmail = myScannerStr.nextLine();
-                                modificaUtente(nuovoNome, nuovaEmail, id);
+                                updateUtente(id, nuovoNome);
                                 break;
                             case 3:
                             System.out.println("Inserisci ID utente da eliminare:");
                                 int deleteID = myScannerInt.nextInt();
 
-                                eliminaUtente(deleteID);
+                                deleteUtente(deleteID);
                                 break;
                             case 4:
-                                letturaUtenti();
+                                readUtenti();
                                 break;
                             default:
                                 if (scelta == 5) {
