@@ -15,8 +15,6 @@ public class Main {
         Scanner myScannerStr = new Scanner(System.in);
         //dichiarazione di scanner per interi
         Scanner myScannerInt = new Scanner(System.in);
-        //creo la tabella
-        creoTabella();
         //richiamo la funzione menù
         menù(myScannerStr, myScannerInt);
         //chiusura degli scanner
@@ -37,7 +35,7 @@ public class Main {
             //invio il comando di update
             stmt.executeUpdate();
             //stampo utente creato con successo
-            System.out.println("Utente cretao con successo!");
+            System.out.println("Utente creato con successo!");
         //altrimenti gestisco il sql exception
         } catch (SQLException e) {
             //stampando l'errore
@@ -48,7 +46,7 @@ public class Main {
     //Funzione Update con passaggio di parametri nome, email e id
     public static void modificaUtente(String nuovoNome, String nuovaEmail, int id) {
         //creo la query e la salvo nella variabile sql
-        String sql = "UPDATE utenti SET nome = ? SET email = ? WHERE id = ?";
+        String sql = "UPDATE utenti SET nome = ?, email = ? WHERE id = ?";
         //try-catch per gestione delle possibili eccezioni, creo nelle parentesi del try la connesione e il preparedStatement
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); PreparedStatement stmt = conn.prepareStatement(sql)){
             //valore 1 relativo al primo ?
@@ -107,7 +105,7 @@ public class Main {
     //funzione READ
     public static void creoTabella() {
         //creo la query e la salvo nella variabile sql
-        String sql = "CREATE TABLE utenti (id INT PRIMARY KEY AUTO_INCREMENT, nome VARCHAR(100), email VARCHAR(100))";
+        String sql = "CREATE TABLE IF NOT EXISTS utenti (id INT PRIMARY KEY AUTO_INCREMENT, nome VARCHAR(100), email VARCHAR(100))";
         //try-catch per gestione delle possibili eccezioni, creo nelle parentesi del try la connesione e lo Statement
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
@@ -149,6 +147,8 @@ public class Main {
                 case 1:
                     //connessione
                     connessione(myScannerStr);
+                    //creo la tabella
+                    creoTabella();
                     //dichiaro una variabile scelta
                     int sceltaMenù;
                     //do-while per gestire il menù
@@ -194,7 +194,7 @@ public class Main {
                                 break;
                             //gestione del caso di default
                             default:
-                                if (scelta == 5) {
+                                if (sceltaMenù == 5) {
                                     System.out.println("Programma terminato!");
                                 } else {
                                     System.out.println("Errore: Scelta non valida.. selezione un opzione valida...");
